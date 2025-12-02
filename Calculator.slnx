@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="Calculator.WPF/Calculator.WPF.csproj" Id="5722ea4c-0de2-4b29-b844-267f9180b6b9" />
   <Project Path="Calculator/Calculator.Engine.csproj" />
-  <Project Path="CalculatorTests/CalculatorTests.csproj" />
+  <Project Path="CalculatorTests/Calculator.Engine.Tests.csproj" />
 </Solution>
