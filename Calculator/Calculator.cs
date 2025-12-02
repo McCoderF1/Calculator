@@ -1,7 +1,9 @@
 ﻿
+using Calculator.Engine.Interfaces;
+
 namespace Calculator.Engine
 {
-    public class Calculator
+    public class Calculator : ICalculator
     {
         public int? Add(params int[] v)
         {

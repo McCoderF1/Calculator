@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Calculator.Engine;
+using Calculator.WPF.ViewModels;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +21,8 @@ namespace Calculator.WPF
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = new MainWindowViewModel(new Parser(), new Calculator.Engine.Calculator());
         }
     }
 }

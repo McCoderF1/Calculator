@@ -1,9 +1,11 @@
-﻿namespace Calculator.Engine
+﻿using Calculator.Engine.Interfaces;
+
+namespace Calculator.Engine
 {
     /// <summary>
     /// Converts strings into numeric expressions
     /// </summary>
-    public class Parser
+    public class Parser : IParser
     {
         public int[] ParseValues(string input)
         {
