@@ -9,9 +9,9 @@ namespace Calculator.Engine
     {
         public long[] ParseValues(string input)
         {
-            var res = input.Split(['-', '+', '/', '*', '=']);
+            var parts = input.Split(['-', '+', '/', '*', '=']);
 
-            return [.. res.Select(long.Parse)];
+            return [.. parts.Select(long.Parse)];
         }
 
         public static bool IsDigit(char input)

@@ -14,10 +14,10 @@ namespace Calculator.Engine
             if (!TryTokenize(expression, out List<string> tokens))
                 return null;
 
-            if (!TryToRpn(tokens, out List<string> rpn))
+            if (!TryConvertToPostfixNotation(tokens, out List<string> postfixNotationTokens))
                 return null;
 
-            if (!TryEvalRpn(rpn, out long result))
+            if (!TryEvaluatePostfixNotation(postfixNotationTokens, out long result))
                 return null;
 
             return result;
@@ -61,10 +61,10 @@ namespace Calculator.Engine
             return tokens.Count > 0;
         }
 
-        private static bool TryToRpn(List<string> tokens, out List<string> output)
+        private static bool TryConvertToPostfixNotation(List<string> tokens, out List<string> output)
         {
             output = new List<string>(tokens.Count);
-            Stack<string> ops = new Stack<string>();
+            Stack<string> operatorStack = new Stack<string>();
 
             foreach (string token in tokens)
             {
@@ -77,31 +77,31 @@ namespace Calculator.Engine
                 if (!IsOperator(token))
                     return false;
 
-                while (ops.Count > 0 && Precedence(ops.Peek()) >= Precedence(token))
-                    output.Add(ops.Pop());
+                while (operatorStack.Count > 0 && Precedence(operatorStack.Peek()) >= Precedence(token))
+                    output.Add(operatorStack.Pop());
 
-                ops.Push(token);
+                operatorStack.Push(token);
             }
 
-            while (ops.Count > 0)
-                output.Add(ops.Pop());
+            while (operatorStack.Count > 0)
+                output.Add(operatorStack.Pop());
 
             return output.Count > 0;
         }
 
-        private static bool TryEvalRpn(List<string> rpn, out long result)
+        private static bool TryEvaluatePostfixNotation(List<string> postfixNotationTokens, out long result)
         {
             result = 0;
             Stack<long> stack = new Stack<long>();
 
-            foreach (string token in rpn)
+            foreach (string token in postfixNotationTokens)
             {
                 if (IsNumber(token))
                 {
-                    if (!long.TryParse(token, out long v))
+                    if (!long.TryParse(token, out long value))
                         return false;
 
-                    stack.Push(v);
+                    stack.Push(value);
                     continue;
                 }
 
