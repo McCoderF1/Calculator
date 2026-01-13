@@ -43,7 +43,7 @@ namespace Calculator.Engine.Tests
         {
             Parser parser = new();
 
-            return parser.IsDigit(character);
+            return Parser.IsDigit(character);
         }
 
         [TestCase('A', ExpectedResult = false)]
@@ -51,7 +51,7 @@ namespace Calculator.Engine.Tests
         {
             Parser parser = new();
 
-            return parser.IsDigit(character);
+            return Parser.IsDigit(character);
         }
 
         [TestCase('+', ExpectedResult = true)]

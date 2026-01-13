@@ -7,14 +7,14 @@ namespace Calculator.Engine
     /// </summary>
     public class Parser : IParser
     {
-        public int[] ParseValues(string input)
+        public long[] ParseValues(string input)
         {
             var res = input.Split(['-', '+', '/', '*', '=']);
 
-            return [.. res.Select(int.Parse)];
+            return [.. res.Select(long.Parse)];
         }
 
-        public bool IsDigit(char input)
+        public static bool IsDigit(char input)
         {
             return input >= '0' && input <= '9';
         }

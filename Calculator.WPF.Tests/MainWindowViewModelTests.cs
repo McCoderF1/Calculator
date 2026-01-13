@@ -15,6 +15,14 @@ namespace Calculator.WPF.Tests
             Assert.That(mwvm.CurrentText, Is.EqualTo(string.Empty));
         }
 
+        [Test]
+        public void ReceiveInputCommand_OnConstruction_NotNull()
+        {
+            MainWindowViewModel mwvm = new MainWindowViewModel(Substitute.For<IParser>(), Substitute.For<ICalculator>());
+
+            Assert.That(mwvm.ReceiveInputCommand, Is.Not.Null);
+        }
+
         [TestCase("1")]
         [TestCase("2")]
         [TestCase("3")]
@@ -28,28 +36,59 @@ namespace Calculator.WPF.Tests
         {
             MainWindowViewModel mwvm = new MainWindowViewModel(Substitute.For<IParser>(), Substitute.For<ICalculator>());
 
-            mwvm.ReceiveValue(input);
+            mwvm.ReceiveInputCommand.Execute(input);
 
             Assert.That(mwvm.CurrentText, Is.EqualTo(input));
         }
 
-        public static object[] AddCases =
+        [Test]
+        public void CurrentText_TwoValuesWithAddOperatorAndEquals_ExpressionEvaluated()
         {
-            new string[] { "1", "+", "1", "=" }
-        };
+            string input1 = "1";
+            string input2 = "+";
+            string input3 = "1";
+            string input4 = "=";
 
-        [TestCaseSource(nameof(AddCases))]
-        public void CurrentText_WithExpression_ExpressionEvaluated(string input1, string input2, string input3, string input4)
-        {
             MainWindowViewModel mwvm = new MainWindowViewModel(new Parser(), new Calculator.Engine.Calculator());
 
-            mwvm.ReceiveValue(input1);
-            mwvm.ReceiveValue(input2);
-            mwvm.ReceiveValue(input3);
-            mwvm.ReceiveValue(input4);
+            mwvm.ReceiveInputCommand.Execute(input1);
+            mwvm.ReceiveInputCommand.Execute(input2);
+            mwvm.ReceiveInputCommand.Execute(input3);
+            mwvm.ReceiveInputCommand.Execute(input4);
 
             Assert.That(mwvm.CurrentText, Is.EqualTo("2"));
         }
 
+        [Test]
+        public void CurrentText_TwoValuesWithTwoAddOperators_ExpressionEvaluated()
+        {
+            string input1 = "1";
+            string input2 = "+";
+            string input3 = "1";
+            string input4 = "=";
+
+            MainWindowViewModel mwvm = new MainWindowViewModel(new Parser(), new Calculator.Engine.Calculator());
+
+            mwvm.ReceiveInputCommand.Execute(input1);
+            mwvm.ReceiveInputCommand.Execute(input2);
+            mwvm.ReceiveInputCommand.Execute(input3);
+            mwvm.ReceiveInputCommand.Execute(input4);
+
+            Assert.That(mwvm.CurrentText, Is.EqualTo("2"));
+        }
+
+        [Test]
+        public void CurrentText_TwoAddOperators_ExpressionNotEvaluated()
+        {
+            string input1 = "+";
+            string input2 = "+";
+
+            MainWindowViewModel mwvm = new MainWindowViewModel(new Parser(), new Calculator.Engine.Calculator());
+
+            mwvm.ReceiveInputCommand.Execute(input1);
+            mwvm.ReceiveInputCommand.Execute(input2);
+
+            Assert.That(mwvm.CurrentText, Is.EqualTo(string.Empty));
+        }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface ICalculator
     {
-        int? Add(params int[] v);
+        long? EvaluateExpression(string expression);
     }
 }

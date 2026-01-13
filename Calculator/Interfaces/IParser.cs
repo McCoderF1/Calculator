@@ -2,6 +2,8 @@
 {
     public interface IParser
     {
-        int[] ParseValues(string input);
+        long[] ParseValues(string input);
+
+        bool IsOperator(char input);
     }
 }
